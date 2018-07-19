@@ -1,0 +1,34 @@
+{
+  "name": "beta-ship",
+  "version": "1.0.0",
+  "description": "main application for rda",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules . --dev --log-level=error+ --log-module=*",
+    "import": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/import --dev --log-level=error+ --log-module=*",
+    "cluster": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster --dev --log-level=error+ --log-module=*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infect.org/beta-ship.git"
+  },
+  "keywords": [
+    "rda",
+    "infect"
+  ],
+  "author": "Michael van der Weg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/infect.org/beta-ship/issues"
+  },
+  "homepage": "https://github.com/infect.org/beta-ship#readme",
+  "dependencies": {
+    "csv": "^3.1.0",
+    "ee-log": "^3.0.6",
+    "fs-promise": "^2.0.3",
+    "rda-service": "^2.5.1",
+    "rda-service-registry": "^1.4.0",
+    "superagent": "^3.8.3"
+  }
+}
