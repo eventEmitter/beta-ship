@@ -21,12 +21,13 @@ class ClusterCreater {
 
 
     async create() {
+        log.info(`Creating cluster ....`);
         this.coordinatorHost = await this.client.resolve('rda-coordinator'); 
         this.clusterHost = await this.client.resolve('rda-cluster'); 
 
         const clusterResponse = await superagent.post(`${this.coordinatorHost}/rda-coordinator.cluster`).ok(r => true).send({
             dataSource: 'infect-rda-sample-storage',
-            dataSet: 'infect',
+            dataSet: 'infect-beta',
         });
 
         if (clusterResponse.status !== 201) {
@@ -37,11 +38,22 @@ class ClusterCreater {
 
 
         while (true) {
-            await this.wait(10000);
+            await this.wait(2000);
             const res = await superagent.get(`${this.clusterHost}/rda-cluster.cluster/${clusterResponse.body.clusterId}`).ok(r => true).send();
             
-            if (res.status === 201) log.success('cluster is online!');
-            else if (res.status === 200) log.debug('building cluster ....');
+            if (res.status === 201) {
+                log.success('cluster is online!');
+                log.info(`cluster ${res.body.clusterId} has loaded ${res.body.totalLoadedRecords} reocrds across ${res.body.shards.length} shards ...`);
+                res.body.shards.forEach((shard) => {
+                    log.debug(`shard ${shard.identifier} has loaded ${shard.loadedRecordCount} records ...`);
+                });
+                return;
+            } else if (res.status === 200) {
+                log.info(`cluster ${res.body.clusterId} has loaded ${res.body.totalLoadedRecords} reocrds across ${res.body.shards.length} shards ...`);
+                res.body.shards.forEach((shard) => {
+                    log.debug(`shard ${shard.identifier} has loaded ${shard.loadedRecordCount} records ...`);
+                });
+            }
             else log(res);
         }
 

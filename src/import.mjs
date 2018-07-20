@@ -39,7 +39,7 @@ class Importer {
 
 
     async createVersion({
-        dataSet = 'infect',
+        dataSet = 'infect-beta',
     } = {}) {
 
         log.info(`creating data version for data set ${dataSet} ...`);

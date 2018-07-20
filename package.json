@@ -5,7 +5,7 @@
   "main": "index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "run": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules . --dev --log-level=error+ --log-module=*",
+    "run": "node --max-old-space-size=2000 --experimental-modules --no-warnings --experimental-vm-modules . --dev --log-level=error+ --log-module=*",
     "import": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/import --dev --log-level=error+ --log-module=*",
     "cluster": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster --dev --log-level=error+ --log-module=*"
   },
