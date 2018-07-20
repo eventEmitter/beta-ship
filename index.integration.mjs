@@ -14,12 +14,13 @@ import {ServiceManager} from 'rda-service';
 
     await serviceManager.startServices('rda-service-registry');
     await serviceManager.startServices('rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute');
-    await serviceManager.startServices('rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute');
+    //await serviceManager.startServices('rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute');
     await serviceManager.startServices('rda-cluster');
     await serviceManager.startServices('rda-coordinator');
     await serviceManager.startServices('infect-rda-sample-storage');
     await serviceManager.startServices('api');
     await serviceManager.startServices('infect-rda-sample-importer');
+    await serviceManager.startServices('rda');
 })().then(() => {
     log.success('application is ready');
 }).catch(log);
