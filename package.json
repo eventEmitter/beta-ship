@@ -8,7 +8,7 @@
     "app": "node --max-old-space-size=2000 --experimental-modules --no-warnings --experimental-vm-modules . --dev --log-level=error+ --log-module=*",
     "import": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/import --dev --log-level=error+ --log-module=*",
     "cluster": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster --dev --log-level=error+ --log-module=*",
-    "ap-int": "node --max-old-space-size=2000 --experimental-modules --no-warnings --experimental-vm-modules . --integration --log-level=error+ --log-module=*",
+    "app-int": "node --max-old-space-size=2000 --experimental-modules --no-warnings --experimental-vm-modules . --integration --log-level=error+ --log-module=*",
     "cluster-int": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster --integration --log-level=error+ --log-module=*"
   },
   "repository": {
