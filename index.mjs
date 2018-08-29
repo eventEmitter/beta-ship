@@ -20,6 +20,7 @@ import {ServiceManager} from 'rda-service';
     await serviceManager.startServices('infect-rda-sample-storage');
     await serviceManager.startServices('api');
     await serviceManager.startServices('infect-rda-sample-importer');
+    await serviceManager.startServices('rda');
 })().then(() => {
     log.success('application is ready');
 }).catch(log);
