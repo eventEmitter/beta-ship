@@ -32,5 +32,9 @@
     "rda-service": "^2.5.1",
     "rda-service-registry": "^1.4.0",
     "superagent": "^3.8.3"
+  },
+  "devDependencies": {
+    "@joinbox/eslint-config-joinbox": "^1.0.5",
+    "eslint": "^5.5.0"
   }
 }

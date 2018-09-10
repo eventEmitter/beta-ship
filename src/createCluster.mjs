@@ -27,7 +27,7 @@ class ClusterCreater {
 
         const clusterResponse = await superagent.post(`${this.coordinatorHost}/rda-coordinator.cluster`).ok(r => true).send({
             dataSource: 'infect-rda-sample-storage',
-            dataSet: 'infect-beta-june',
+            dataSet: 'infect-beta',
         });
 
         if (clusterResponse.status !== 201) {

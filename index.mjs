@@ -9,7 +9,7 @@ import {ServiceManager} from 'rda-service';
 (async () => {
 
     const serviceManager = new ServiceManager({
-        args: '--related-errors --data-for-dev --dev --log-level=error+ --log-module=*'.split(' ')
+        args: '--related-errors --data-for-dev --dev --log-level=info+ --log-module=*'.split(' ')
     });
 
     await serviceManager.startServices('rda-service-registry');
