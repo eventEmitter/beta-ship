@@ -64,7 +64,7 @@ class Importer {
             .ok(res => res.status === 201)
             .send({
                 dataSet,
-                dataSetFields: ['bacteriumId', 'antibioticId', 'ageGroupId', 'regionId', 'sampleDate', 'resistance', 'hospitalStatusIds'],
+                dataSetFields: ['bacteriumId', 'antibioticId', 'ageGroupId', 'regionId', 'sampleDate', 'resistance', 'hospitalStatusId'],
             });
 
 
@@ -88,7 +88,7 @@ class Importer {
 
 
         log.info('reading data ...');
-        const CSVBlob = await fs.readFile(path.resolve('./data/20180601_anresis_export.csv'));
+        const CSVBlob = await fs.readFile(path.resolve('./data/20180906_INFECT_export_month.csv'));
 
 
         log.info('parsing data ...');
