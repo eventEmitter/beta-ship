@@ -1,11 +1,11 @@
-import log from 'ee-log';
-import fs from 'fs-promise';
-import path from 'path';
-import superagent from 'superagent';
-import util from 'util';
-import csv from 'csv';
-import RegistryClient from 'rda-service-registry/src/RegistryClient.mjs';
 import crypto from 'crypto';
+import csv from 'csv';
+import fs from 'fs-promise';
+import HTTP2Client from '@distributed-systems/http2-client';
+import log from 'ee-log';
+import path from 'path';
+import RegistryClient from '@infect/rda-service-registry-client';
+import util from 'util';
 
 
 
@@ -26,13 +26,13 @@ class Importer {
      * @param      {string}  registryHost  The registry host
      */
     constructor(registryHost = 'http://l.dns.porn:9000') {
-        this.client = new RegistryClient({
-            registryHost,
-        });
+        this.client = new RegistryClient(registryHost);
 
         this.pageSize = 10000;
         this.offset = 0;
 
+
+        this.httpClient = new HTTP2Client();
 
         this.stats = {
             importedRecordCount: 0,
@@ -45,6 +45,14 @@ class Importer {
     }
 
 
+
+
+    /**
+     * shut the class down
+     */
+    async end() {
+        await this.httpClient.end();
+    }
 
 
 
@@ -60,15 +68,15 @@ class Importer {
     } = {}) {
 
         log.info(`creating data version for data set ${dataSet} ...`);
-        const response = await superagent.post(`${this.importHost}/infect-rda-sample-import.anresis-import`)
-            .ok(res => res.status === 201)
+        const response = await this.httpClient.post(`${this.importHost}/infect-rda-sample-import.anresis-import`)
+            .expect(201)
             .send({
                 dataSet,
                 dataSetFields: ['bacteriumId', 'antibioticId', 'ageGroupId', 'regionId', 'sampleDate', 'resistance', 'hospitalStatusId'],
             });
 
-
-        this.dataVersionId = response.body.id;
+        const data = await response.getData();
+        this.dataVersionId = data.id;
     }
 
 
@@ -88,7 +96,7 @@ class Importer {
 
 
         log.info('reading data ...');
-        const CSVBlob = await fs.readFile(path.resolve('./data/20180906_INFECT_export_month.csv'));
+        const CSVBlob = await fs.readFile(path.resolve('./data/20190601-INFECT_export_month.csv'));
 
 
         log.info('parsing data ...');
@@ -108,9 +116,11 @@ class Importer {
         ]);
 
         log.info('changing data version status to active ...');
-        await superagent.patch(`${this.storageHost}/infect-rda-sample-storage.data-version/${this.dataVersionId}`).ok(res => res.status === 200).send({
-            status: 'active',
-        });
+        await this.httpClient.patch(`${this.storageHost}/infect-rda-sample-storage.data-version/${this.dataVersionId}`)
+            .expect(200)
+            .send({
+                status: 'active',
+            });
 
 
         log(this.failedEntites, this.stats);
@@ -127,9 +137,11 @@ class Importer {
      */
     async updateClusters() {
         log.info('updating clusters ...');
-        await superagent.patch(`${this.storageHost}/infect-rda-coordinator-storage.data-version/${this.dataVersionId}`).ok(res => res.status === 200).send({
-            status: 'active',
-        });
+        await this.httpClient.patch(`${this.storageHost}/infect-rda-coordinator-storage.data-version/${this.dataVersionId}`)
+            .expect(200)
+            .send({
+                status: 'active',
+            });
     }
 
 
@@ -148,18 +160,24 @@ class Importer {
         // sampleID                        ,    REGION_DESCRIPTION,         sample type,    type of origin,     age-group,  microorganism,      ABCLS_ACRONYM,  AB_NAME,    DELIVERED_QUALITATIVE_RES,  DAY_DAY
         // 95409B77F8E10B6437A3D819E6B0AAFB,    "Switzerland Nord-East",    urine,          outpatient,         45-64,      "Escherichia coli", "ceph4",        "Cefepime", s,                          08.12.2017
         //                                                                                                                                                                                              0123456789
+        //                                                                                                                                                                                              
+        // 0                        1               2                   3           4                       5                6                  7                           8               9
+        // "Switzerland East"       ,other          ,inpatient          ,15-44      ,"Escherichia coli"     ,"quinolones"   ,"Levofloxacin"     ,s                          ,01.03.2019     ,514A1039F37B65B1A84FFDB1C7D67061
+        // REGION_DESCRIPTION       ,sample type    ,type of origin     ,age-group  ,microorganism          ,ABCLS_ACRONYM  ,AB_NAME            ,DELIVERED_QUALITATIVE_RES  ,DAY_DAY        ,record-identif
+
+
         /* eslint-enable max-len */
-        const sampleDate = `${row[9].substr(6, 4)}-${row[9].substr(3, 2)}-${row[9].substr(0, 2)}T00:00:00Z`;
+        const sampleDate = `${row[8].substr(6, 4)}-${row[8].substr(3, 2)}-${row[8].substr(0, 2)}T00:00:00Z`;
 
         return {
-            bacterium: row[5],
-            antibiotic: row[7],
-            ageGroup: row[4],
-            region: row[1],
+            bacterium: row[4],
+            antibiotic: row[6],
+            ageGroup: row[3],
+            region: row[0],
             sampleDate,
-            resistance: row[8],
-            hospitalStatus: row[3],
-            sampleId: this.getHash(row[0], row[5], row[7], sampleDate),
+            resistance: row[7],
+            hospitalStatus: row[2],
+            sampleId: this.getHash(row[9], row[4], row[6], sampleDate),
         };
     }
 
@@ -196,16 +214,18 @@ class Importer {
         if (data.length > 0) {
             log.debug(`importing slice ${this.offset - this.pageSize}-${((this.offset - this.pageSize) + data.length)} ...`);
             const start = Date.now();
-            const response = await superagent.patch(`${this.importHost}/infect-rda-sample-import.anresis-import/${this.dataVersionId}`)
-                .ok(res => res.status === 200)
+            const response = await this.httpClient.patch(`${this.importHost}/infect-rda-sample-import.anresis-import/${this.dataVersionId}`)
+                .expect(200)
                 .send(data);
 
-            log.info(`Imported ${response.body.importedRecordCount} records in ${Math.round((Date.now() - start) / 1000)} seconds, omitted ${response.body.duplicateRecordCount} duplicate records ...`);
+            const responseData = await response.getData();
 
-            if (response.body.failedRecordCount > 0) {
-                log.debug(`Failed to import ${response.body.failedRecordCount} records`);
+            log.info(`Imported ${responseData.importedRecordCount} records in ${Math.round((Date.now() - start) / 1000)} seconds, omitted ${responseData.duplicateRecordCount} duplicate records ...`);
 
-                for (const record of response.body.failedRecords) {
+            if (responseData.failedRecordCount > 0) {
+                log.debug(`Failed to import ${responseData.failedRecordCount} records`);
+
+                for (const record of responseData.failedRecords) {
                     const prop = `${record.failedResource}.${record.failedProperty}`;
                     if (!this.failedEntites.has(prop)) this.failedEntites.set(prop, new Map());
 
@@ -215,9 +235,9 @@ class Importer {
                 }
             }
 
-            this.stats.failedRecordCount += response.body.failedRecordCount;
-            this.stats.duplicateRecordCount += response.body.duplicateRecordCount;
-            this.stats.importedRecordCount += response.body.importedRecordCount;
+            this.stats.failedRecordCount += responseData.failedRecordCount;
+            this.stats.duplicateRecordCount += responseData.duplicateRecordCount;
+            this.stats.importedRecordCount += responseData.importedRecordCount;
 
             await this.importPage();
         }
@@ -233,4 +253,8 @@ const importer = new Importer();
 
 importer.import().then(() => {
     log.success('the import was completed');
-}).catch(log);
+    importer.end();
+}).catch((err) => {
+    log.error(err);
+    importer.end();
+});

@@ -23,6 +23,6 @@ config.js
 
 coverage
 
-secrets.development.js
+secrets.*
 
 data/*.csv

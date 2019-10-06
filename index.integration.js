@@ -1,20 +1,16 @@
-'use strict';
-
-
-
 import log from 'ee-log';
-import {ServiceManager} from 'rda-service';
+import ServiceManager from '@infect/rda-service-manager';
 
 
-(async () => {
+(async() => {
 
     const serviceManager = new ServiceManager({
-        args: '--related-errors --data-for-dev --dev --log-level=info+ --log-module=*'.split(' ')
+        args: '--related-errors --data-for-beta --integration --log-level=error+ --log-module=*'.split(' ')
     });
 
     await serviceManager.startServices('rda-service-registry');
     await serviceManager.startServices('rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute');
-    await serviceManager.startServices('rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute');
+    //await serviceManager.startServices('rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute', 'rda-compute');
     await serviceManager.startServices('rda-cluster');
     await serviceManager.startServices('rda-coordinator');
     await serviceManager.startServices('infect-rda-sample-storage');
