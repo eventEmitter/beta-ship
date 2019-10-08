@@ -11,7 +11,7 @@
     "app-int": "node --max-old-space-size=2000 --experimental-modules --no-warnings --experimental-vm-modules index.integration.js --integration --log-level=error+ --log-module=*",
     "cluster-int": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster.js --integration --log-level=error+ --log-module=*",
     "link": "node --experimental-modules --no-warnings ./node_modules/.bin/linker --dev --l",
-    "update": "node --experimental-modules --no-warnings /node_modules/.bin/updater --l --dev --group=rda-service"
+    "update": "node --experimental-modules --no-warnings ./node_modules/.bin/updater --l --dev --group=rda-service"
   },
   "repository": {
     "type": "git",
@@ -42,7 +42,7 @@
     "@infect/rda-service-registry-client": "^2.1.1",
     "@joinbox/eslint-config-joinbox": "^1.0.8",
     "csv": "^5.1.3",
-    "depstr": "^1.1.0",
+    "depstr": "^1.1.1",
     "ee-log": "^3.0.9",
     "fs-promise": "^2.0.3"
   },

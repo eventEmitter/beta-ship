@@ -35,7 +35,7 @@ class ClusterCreater {
             });
 
         if (!clusterResponse.status(201)) {
-            log(clusterResponse);
+            log(await clusterResponse.getData());
             process.exit();
         }
 
