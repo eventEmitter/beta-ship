@@ -31,7 +31,7 @@ class ClusterCreater {
         const clusterResponse = await this.httpClient.post(`${this.coordinatorHost}/rda-coordinator.cluster`)
             .send({
                 dataSource: 'infect-rda-sample-storage',
-                dataSet: 'infect-beta',
+                dataSet: 'infect-production',
             });
 
         if (!clusterResponse.status(201)) {

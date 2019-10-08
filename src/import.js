@@ -64,7 +64,7 @@ class Importer {
      * @return     {Promise}  undefined
      */
     async createVersion({
-        dataSet = 'infect-beta',
+        dataSet = 'infect-production',
     } = {}) {
 
         log.info(`creating data version for data set ${dataSet} ...`);
@@ -96,7 +96,7 @@ class Importer {
 
 
         log.info('reading data ...');
-        const CSVBlob = await fs.readFile(path.resolve('./data/20190601-INFECT_export_month.csv'));
+        const CSVBlob = await fs.readFile(path.resolve('./data/20191001-anresis_export_new_format.csv'));
 
 
         log.info('parsing data ...');
@@ -219,6 +219,7 @@ class Importer {
                 .send(data);
 
             const responseData = await response.getData();
+
 
             log.info(`Imported ${responseData.importedRecordCount} records in ${Math.round((Date.now() - start) / 1000)} seconds, omitted ${responseData.duplicateRecordCount} duplicate records ...`);
 
