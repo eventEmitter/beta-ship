@@ -38,7 +38,7 @@
     "@infect/infect-rda-sample-storage": "^3.0.7",
     "@infect/rda": "^2.0.6",
     "@infect/rda-cluster-service": "^2.0.6",
-    "@infect/rda-compute-service": "^2.0.8",
+    "@infect/rda-compute-service": "^2.0.9",
     "@infect/rda-coordinator-service": "^2.0.5",
     "@infect/rda-lock-service": "^2.0.5",
     "@infect/rda-service-manager": "^2.0.4",

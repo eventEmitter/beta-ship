@@ -22,10 +22,20 @@ static_resources:
             - name: api
               domains: ["*"]
               routes:
+
+              - match: { prefix: "/health" }
+                direct_response:
+                  status: 200
+
+              - match: { prefix: "/guideline" }
+                route: { cluster: guideline }
+
               - match: { prefix: "/rda.data" }
                 route: { cluster: rda }
+
               - match: { prefix: "/" }
                 route: { cluster: api }
+
           http_filters:
           - name: envoy.router
 
@@ -66,4 +76,19 @@ static_resources:
                 port_value: 7500
     http2_protocol_options:
       hpack_table_size: 4096
+
+
+  - name: guideline
+    connect_timeout: 0.25s
+    type: STATIC
+    lb_policy: ROUND_ROBIN
+    load_assignment:
+      cluster_name: guideline
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: 34.254.204.18
+                port_value: 80
 
