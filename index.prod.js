@@ -5,7 +5,7 @@ import ServiceManager from '@infect/rda-service-manager';
 (async() => {
 
     const serviceManager = new ServiceManager({
-        args: '--related-errors --data-for-dev --prod --log-level=info+ --log-module=*'.split(' ')
+        args: '--related-errors --data-for-production --prod --log-level=info+ --log-module=*'.split(' ')
     });
 
     await serviceManager.startServices('@infect/rda-service-registry');
