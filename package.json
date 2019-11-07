@@ -32,7 +32,7 @@
   "homepage": "https://github.com/infect.org/beta-ship#readme",
   "dependencies": {
     "@distributed-systems/http2-client": "github:distributed-systems/http2-client",
-    "@infect/api": "^2.0.5",
+    "@infect/api": "^2.0.6",
     "@infect/frontend": "^3.5.0-guidelines.1",
     "@infect/infect-rda-sample-importer": "^2.1.2",
     "@infect/infect-rda-sample-storage": "^3.0.7",
