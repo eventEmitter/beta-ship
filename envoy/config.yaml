@@ -30,6 +30,9 @@ static_resources:
               - match: { prefix: "/guideline" }
                 route: { cluster: guideline }
 
+              - match: { prefix: "/tenant" }
+                route: { cluster: guideline }
+
               - match: { prefix: "/rda.data" }
                 route: { cluster: rda }
 
