@@ -36,6 +36,9 @@ static_resources:
               - match: { prefix: "/rda.data" }
                 route: { cluster: rda }
 
+              - match: { prefix: "/rda.configuration" }
+                route: { cluster: rda }
+
               - match: { prefix: "/" }
                 route: { cluster: api }
 
