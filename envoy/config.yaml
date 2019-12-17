@@ -14,6 +14,15 @@ static_resources:
     - filters:
       - name: envoy.http_connection_manager
         config:
+          # access_log:
+          #   name: envoy.file_access_log
+          #   config:
+          #     path: /home/ee/access.log
+          #     format: >
+          #       [%START_TIME%] "%REQ(:METHOD)% %REQ(X-ENVOY-ORIGINAL-PATH?:PATH)% %PROTOCOL%"
+          #       %RESPONSE_CODE% %RESPONSE_FLAGS% %BYTES_RECEIVED% %BYTES_SENT% %DURATION%
+          #       %RESP(X-ENVOY-UPSTREAM-SERVICE-TIME)% "%REQ(X-FORWARDED-FOR)%" "%REQ(USER-AGENT)%"
+          #       "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%" "%UPSTREAM_CLUSTER%"\n
           stat_prefix: ingress_http
           codec_type: AUTO
           route_config:
@@ -28,7 +37,7 @@ static_resources:
                   status: 200
 
               - match: { prefix: "/guideline" }
-                route: { cluster: guideline }
+                route: { cluster: guideline, host_rewrite: "api.infect.info" }
 
               - match: { prefix: "/tenant" }
                 route: { cluster: guideline }
@@ -85,9 +94,10 @@ static_resources:
 
 
   - name: guideline
-    connect_timeout: 0.25s
-    type: STATIC
+    connect_timeout: 1s
+    type: STRICT_DNS
     lb_policy: ROUND_ROBIN
+    tls_context: {}
     load_assignment:
       cluster_name: guideline
       endpoints:
@@ -95,6 +105,6 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: 34.254.204.18
-                port_value: 80
+                address: api.infect.info
+                port_value: 443
 
