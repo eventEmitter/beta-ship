@@ -38,7 +38,7 @@ static_resources:
 
               # core data, new scheme
               - match: { prefix: "/core-data/v1/" }
-                route: { cluster: rda, prefix_rewrite: "/" }
+                route: { cluster: api, prefix_rewrite: "/" }
 
               # rda, new scheme
               - match: { prefix: "/rda/v1/" }
