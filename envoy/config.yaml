@@ -37,11 +37,11 @@ static_resources:
                   status: 200
 
               # core data, new scheme
-              - match: { prefix: "/core-data/v1" }
+              - match: { prefix: "/core-data/v1/" }
                 route: { cluster: rda, prefix_rewrite: "/" }
 
               # rda, new scheme
-              - match: { prefix: "/rda/v1" }
+              - match: { prefix: "/rda/v1/" }
                 route: { cluster: rda, prefix_rewrite: "/" }
 
               # guideline, new scheme
