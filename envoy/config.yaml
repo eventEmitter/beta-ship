@@ -36,18 +36,31 @@ static_resources:
                 direct_response:
                   status: 200
 
-              - match: { prefix: "/guideline" }
-                route: { cluster: guideline, host_rewrite: "api.infect.info" }
+              # core data, new scheme
+              - match: { prefix: "/core-data/v1" }
+                route: { cluster: rda, prefix_rewrite: "/" }
 
+              # rda, new scheme
+              - match: { prefix: "/rda/v1" }
+                route: { cluster: rda, prefix_rewrite: "/" }
+
+              # guideline, new scheme
+              - match: { prefix: "/guideline" }
+                route: { cluster: guideline }
+
+              # tenant, new scheme
               - match: { prefix: "/tenant" }
                 route: { cluster: guideline }
 
+              # rda, old scheme
               - match: { prefix: "/rda.data" }
                 route: { cluster: rda }
 
+              # rda, old scheme
               - match: { prefix: "/rda.configuration" }
                 route: { cluster: rda }
 
+              # old scheme, catch all
               - match: { prefix: "/" }
                 route: { cluster: api }
 
@@ -95,7 +108,7 @@ static_resources:
 
   - name: guideline
     connect_timeout: 1s
-    type: STRICT_DNS
+    type: STATIC
     lb_policy: ROUND_ROBIN
     tls_context: {}
     load_assignment:
@@ -105,6 +118,6 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: api.infect.info
+                address: 34.254.204.18
                 port_value: 443
 
