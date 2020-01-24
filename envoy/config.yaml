@@ -40,8 +40,20 @@ static_resources:
               - match: { prefix: "/core-data/v1/" }
                 route: { cluster: api, prefix_rewrite: "/" }
 
-              # rda, new scheme
-              - match: { prefix: "/rda/v1/" }
+              # rda, v1 urls
+              - match: { prefix: "/rda/v1/rda.configuration" }
+                route: { cluster: rda, prefix_rewrite: "/rda.configuration-v1" }
+              - match: { prefix: "/rda/v1/rda.data" }
+                route: { cluster: rda, prefix_rewrite: "/rda.data-v1" }
+
+              # rda, old scheme
+              - match: { prefix: "/rda.configuration" }
+                route: { cluster: rda, path_rewrite: "/rda.configuration-v1" }
+              - match: { prefix: "/rda.data" }
+                route: { cluster: rda, path_rewrite: "/rda.data-v1" }
+
+              # rda, v2
+              - match: { prefix: "/rda/v2/" }
                 route: { cluster: rda, prefix_rewrite: "/" }
 
               # guideline, new scheme
@@ -51,14 +63,6 @@ static_resources:
               # tenant, new scheme
               - match: { prefix: "/tenant" }
                 route: { cluster: guideline }
-
-              # rda, old scheme
-              - match: { prefix: "/rda.data" }
-                route: { cluster: rda }
-
-              # rda, old scheme
-              - match: { prefix: "/rda.configuration" }
-                route: { cluster: rda }
 
               # old scheme, catch all
               - match: { prefix: "/" }

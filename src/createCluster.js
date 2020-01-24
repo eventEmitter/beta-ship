@@ -31,7 +31,7 @@ class ClusterCreater {
         const clusterResponse = await this.httpClient.post(`${this.coordinatorHost}/rda-coordinator.cluster`)
             .send({
                 dataSource: 'infect-rda-sample-storage',
-                dataSet: 'infect-production',
+                dataSet: 'infect-human',
             });
 
         if (!clusterResponse.status(201)) {
@@ -56,7 +56,7 @@ class ClusterCreater {
                 });
                 return;
             } else if (res.status(200)) {
-                log.info(`cluster ${data.clusterId} has loaded ${data.totalLoadedRecords} reocrds across ${data.shards.length} shards ...`);
+                log.info(`cluster ${data.clusterId} has loaded ${data.totalLoadedRecords} reocrods across ${data.shards.length} shards ...`);
                 data.shards.forEach((shard) => {
                     log.debug(`shard ${shard.identifier} has loaded ${shard.loadedRecordCount} records ...`);
                 });
