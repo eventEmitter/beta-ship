@@ -1,6 +1,6 @@
 {
   "name": "@infect/beta-ship",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "main application for rda",
   "main": "index.js",
   "scripts": {
