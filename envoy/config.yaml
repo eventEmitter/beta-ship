@@ -137,7 +137,6 @@ static_resources:
     connect_timeout: 1s
     type: STATIC
     lb_policy: ROUND_ROBIN
-    tls_context: {}
     load_assignment:
       cluster_name: frontend
       endpoints:
