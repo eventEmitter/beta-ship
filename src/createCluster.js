@@ -23,7 +23,7 @@ class ClusterCreater {
 
 
 
-    async create() {
+    async create(dataSetName) {
         log.info(`Creating cluster ....`);
         this.coordinatorHost = await this.client.resolve('rda-coordinator');
         this.clusterHost = await this.client.resolve('rda-cluster');
@@ -31,7 +31,7 @@ class ClusterCreater {
         const clusterResponse = await this.httpClient.post(`${this.coordinatorHost}/rda-coordinator.cluster`)
             .send({
                 dataSource: 'infect-rda-sample-storage',
-                dataSet: 'infect-human',
+                dataSet: dataSetName,
             });
 
         if (!clusterResponse.status(201)) {
@@ -83,10 +83,9 @@ class ClusterCreater {
 
 
 const cluster = new ClusterCreater();
+const dataSetName = process.argv.includes('--vet') ? 'infect-vet' : 'infct-human';
 
-
-
-cluster.create().then(() => {
+cluster.create(dataSetName).then(() => {
     log.success('the cluster was created');
     cluster.end();
 }).catch((err) => {

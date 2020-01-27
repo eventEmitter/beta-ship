@@ -35,6 +35,10 @@ class CodeLoader {
         await this.httpClient.patch(`${storageHost}/infect-rda-sample-storage.source-code-loader/infect-human`)
             .expect(200)
             .send();
+
+        await this.httpClient.patch(`${storageHost}/infect-rda-sample-storage.source-code-loader/infect-vet`)
+            .expect(200)
+            .send();
     }
 }
 
