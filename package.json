@@ -44,7 +44,7 @@
     "@infect/rda-lock-service": "^2.1.4",
     "@infect/rda-service-manager": "^2.0.4",
     "@infect/rda-service-registry": "^3.0.3",
-    "@infect/rda-service-registry-client": "^2.1.1",
+    "@infect/rda-service-registry-client": "^2.1.2",
     "@joinbox/eslint-config-joinbox": "^1.0.8",
     "csv": "^5.3.1",
     "depstr": "^1.2.1",
