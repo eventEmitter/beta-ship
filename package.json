@@ -39,7 +39,7 @@
     "@infect/frontend": "^3.5.0-guidelines.1",
     "@infect/infect-rda-sample-importer": "^3.0.0",
     "@infect/infect-rda-sample-storage": "^4.0.4",
-    "@infect/rda": "^3.0.1",
+    "@infect/rda": "^3.0.2",
     "@infect/rda-cluster-service": "^3.0.3",
     "@infect/rda-compute-service": "^3.0.0",
     "@infect/rda-coordinator-service": "^3.0.2",
