@@ -28,6 +28,7 @@ static_resources:
           route_config:
             name: local_route
             virtual_hosts:
+
             - name: api
               domains: ["*"]
               routes:
@@ -67,6 +68,12 @@ static_resources:
               # old scheme, catch all
               - match: { prefix: "/" }
                 route: { cluster: api }
+
+            - name: frontend
+              domains: ["beta.infect.info", "beta.vet.infect.info"]
+              routes:
+              - match: { prefix: "/" }
+                route: { cluster: frontend }
 
           http_filters:
           - name: envoy.router
@@ -124,4 +131,20 @@ static_resources:
               socket_address:
                 address: 34.254.204.18
                 port_value: 443
+
+
+  - name: frontend
+    connect_timeout: 1s
+    type: STATIC
+    lb_policy: ROUND_ROBIN
+    tls_context: {}
+    load_assignment:
+      cluster_name: frontend
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: 127.0.0.1
+                port_value: 80
 
