@@ -36,6 +36,7 @@ static_resources:
               - match: { prefix: "/", headers: [{ name: "x-forwarded-proto", regex_match: "^http$" }] }
                 redirect:
                   https_redirect: true
+                  port_redirect: 443
 
               - match: { prefix: "/health" }
                 direct_response:
@@ -73,7 +74,7 @@ static_resources:
               - match: { prefix: "/" }
                 route: { cluster: api }
 
-            
+
             - name: frontend
               domains: ["beta.infect.info", "beta.vet.infect.info"]
               routes:
@@ -81,6 +82,7 @@ static_resources:
               - match: { prefix: "/", headers: [{ name: "x-forwarded-proto", regex_match: "^http$" }] }
                 redirect:
                   https_redirect: true
+                  port_redirect: 443
 
               - match: { prefix: "/" }
                 route: { cluster: frontend }
