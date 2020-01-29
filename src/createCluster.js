@@ -32,6 +32,7 @@ class ClusterCreater {
             .send({
                 dataSource: 'infect-rda-sample-storage',
                 dataSet: dataSetName,
+                modelPrefix: 'Infect',
             });
 
         if (!clusterResponse.status(201)) {
@@ -40,23 +41,24 @@ class ClusterCreater {
         }
 
         const cluterData = await clusterResponse.getData();
-
+        const startTime = Date.now();
 
 
         while (true) {
             await this.wait(2000);
             const res = await this.httpClient.get(`${this.clusterHost}/rda-cluster.cluster/${cluterData.clusterId}`).send();
             const data = await res.getData();
+            const duration = Math.round((Date.now()-startTime)/1000);
 
             if (res.status(201)) {
-                log.success('cluster is online!');
-                log.info(`cluster ${data.clusterId} has loaded ${data.totalLoadedRecords} reocrds across ${data.shards.length} shards ...`);
+                log.info(`cluster ${data.clusterId} has loaded ${data.totalLoadedRecords} records in ${duration} seconds (${Math.round(data.totalLoadedRecords/duration)} records/second) across ${data.shards.length} shards ...`);
                 data.shards.forEach((shard) => {
                     log.debug(`shard ${shard.identifier} has loaded ${shard.loadedRecordCount} records ...`);
                 });
+                log.success('cluster is online!');
                 return;
             } else if (res.status(200)) {
-                log.info(`cluster ${data.clusterId} has loaded ${data.totalLoadedRecords} reocrods across ${data.shards.length} shards ...`);
+                log.info(`cluster ${data.clusterId} has loaded ${data.totalLoadedRecords} records in ${duration} seconds (${Math.round(data.totalLoadedRecords/duration)} records/second) across ${data.shards.length} shards ...`);
                 data.shards.forEach((shard) => {
                     log.debug(`shard ${shard.identifier} has loaded ${shard.loadedRecordCount} records ...`);
                 });
@@ -83,7 +85,7 @@ class ClusterCreater {
 
 
 const cluster = new ClusterCreater();
-const dataSetName = process.argv.includes('--vet') ? 'infect-vet' : 'infct-human';
+const dataSetName = process.argv.includes('--vet') ? 'infect-vet' : 'infect-human';
 
 cluster.create(dataSetName).then(() => {
     log.success('the cluster was created');
