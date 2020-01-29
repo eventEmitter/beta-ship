@@ -37,10 +37,10 @@ static_resources:
                 direct_response:
                   status: 200
 
-              - match: { prefix: "/", headers: [{ name: "x-forwarded-proto", regex_match: "^http$" }] }
-                redirect:
-                  https_redirect: true
-                  port_redirect: 443
+              # - match: { prefix: "/", headers: [{ name: "x-forwarded-proto", regex_match: "^http$" }] }
+              #   redirect:
+              #     https_redirect: true
+              #     port_redirect: 443
 
               # core data, new scheme
               - match: { prefix: "/core-data/v1/" }
