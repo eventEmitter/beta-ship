@@ -25,6 +25,10 @@ static_resources:
           #       "%REQ(X-REQUEST-ID)%" "%REQ(:AUTHORITY)%" "%UPSTREAM_HOST%" "%UPSTREAM_CLUSTER%"\n
           stat_prefix: ingress_http
           codec_type: AUTO
+          http_filters:
+            - name: gzip
+              config:
+                compression_strategy: DEFAULT
           route_config:
             name: local_route
             virtual_hosts:
