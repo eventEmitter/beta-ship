@@ -76,7 +76,7 @@ static_resources:
 
 
             - name: frontend
-              domains: ["beta.infect.info", "beta.vet.infect.info"]
+              domains: ["beta.infect.info", "beta.vet.infect.info" ,"beta.infect.org"]
               routes:
               
               - match: { prefix: "/", headers: [{ name: "x-forwarded-proto", regex_match: "^http$" }] }
