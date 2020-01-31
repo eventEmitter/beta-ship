@@ -26,9 +26,8 @@ static_resources:
           stat_prefix: ingress_http
           codec_type: AUTO
           http_filters:
-            - name: gzip
-              config:
-                compression_strategy: DEFAULT
+            - name: envoy.gzip
+
           route_config:
             name: local_route
             virtual_hosts:
@@ -41,10 +40,10 @@ static_resources:
                 direct_response:
                   status: 200
 
-              # - match: { prefix: "/", headers: [{ name: "x-forwarded-proto", regex_match: "^http$" }] }
-              #   redirect:
-              #     https_redirect: true
-              #     port_redirect: 443
+              - match: { prefix: "/", headers: [{ name: "x-forwarded-proto", regex_match: "^http$" }] }
+                redirect:
+                  https_redirect: true
+                  port_redirect: 443
 
               # core data, new scheme
               - match: { prefix: "/core-data/v1/" }
@@ -80,7 +79,7 @@ static_resources:
 
 
             - name: frontend
-              domains: ["beta.infect.info", "beta.vet.infect.info" ,"beta.infect.org"]
+              domains: ["beta.infect.info", "beta.vet.infect.info" ,"beta.infect.org", "vet.infect.info"]
               routes:
               
               - match: { prefix: "/", headers: [{ name: "x-forwarded-proto", regex_match: "^http$" }] }
