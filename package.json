@@ -7,7 +7,7 @@
     "app": "node --max-old-space-size=2000 --experimental-modules --no-warnings --experimental-vm-modules index.js --dev --log-level=debug+ --log-module=*",
     "app-int": "node --max-old-space-size=2000 --experimental-modules --no-warnings --experimental-vm-modules index.integration.js --integration --log-level=error+ --log-module=*",
     "app-prod": "node --max-old-space-size=2000 --experimental-modules --no-warnings --experimental-vm-modules index.prod.js --prod --log-level=debug+ --log-module=*",
-    "cluster": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster.js --dev --log-level=error+ --log-module=*",
+    "cluster": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster.js --dev --log-level=debug+ --log-module=*",
     "cluster-vet": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster.js --vet --dev --log-level=error+ --log-module=*",
     "cluster-int": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster.js --integration --log-level=error+ --log-module=*",
     "cluster-prod": "node --max-old-space-size=16000 --experimental-modules --no-warnings --experimental-vm-modules src/createCluster.js --prod --log-level=error+ --log-module=*",
@@ -35,7 +35,7 @@
   "homepage": "https://github.com/infect.org/beta-ship#readme",
   "dependencies": {
     "@distributed-systems/http2-client": "^2.1.1",
-    "@infect/api": "^3.1.0",
+    "@infect/api": "^3.1.1",
     "@infect/frontend": "^3.5.0-guidelines.1",
     "@infect/infect-rda-sample-importer": "^3.1.1",
     "@infect/infect-rda-sample-storage": "^4.1.1",
