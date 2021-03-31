@@ -17,7 +17,8 @@
     "link": "node --experimental-modules --no-warnings ./node_modules/.bin/linker --dev --l",
     "load-code": "node --experimental-modules --no-warnings --experimental-vm-modules src/loadCode.js --dev --log-level=error+ --log-module=*",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "update": "node --experimental-modules --no-warnings ./node_modules/.bin/updater --l --dev --group=rda-service --wno-publish"
+    "update": "node --experimental-modules --no-warnings ./node_modules/.bin/updater --l --dev --group=rda-service --wno-publish",
+    "proxy": "./envoy/envoy -c ./envoy/config.dev.yaml"
   },
   "repository": {
     "type": "git",
@@ -52,7 +53,8 @@
     "depstr": "^1.2.1",
     "ee-log": "^3.0.9",
     "express": "^4.17.1",
-    "fs-promise": "^2.0.3"
+    "fs-promise": "^2.0.3",
+    "pg": "^8.5.1"
   },
   "devDependencies": {
     "eslint": "^5.16.0"

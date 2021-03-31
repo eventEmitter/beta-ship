@@ -1,21 +1,21 @@
 dependencies:
-    - @infect/api
-    - @infect/infect-rda-sample-importer
-    - @infect/infect-rda-sample-storage
-    - @infect/rda
-    - @infect/rda-cluster-service
-    - @infect/rda-compute-service
-    - @infect/rda-coordinator-service
-    - @infect/rda-lock-service
-    - @infect/rda-service-manager
-    - @infect/rda-service-registry
-    - @infect/rda-service-registry-client
-    - @joinbox/eslint-config-joinbox
+    - '@infect/api'
+    - '@infect/infect-rda-sample-importer'
+    - '@infect/infect-rda-sample-storage'
+    - '@infect/rda'
+    - '@infect/rda-cluster-service'
+    - '@infect/rda-compute-service'
+    - '@infect/rda-coordinator-service'
+    - '@infect/rda-lock-service'
+    - '@infect/rda-service-manager'
+    - '@infect/rda-service-registry'
+    - '@infect/rda-service-registry-client'
+    - '@joinbox/eslint-config-joinbox'
 
 
 rda-service:
     dependencies:
-        - @infect/rda-service
+        - '@infect/rda-service'
 
     packages:
-        - @infect/*
+        - '@infect/*'
