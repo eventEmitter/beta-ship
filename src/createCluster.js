@@ -90,7 +90,9 @@ const dataSetName = process.argv.includes('--vet') ? 'infect-vet' : 'infect-huma
 cluster.create(dataSetName).then(() => {
     log.success('the cluster was created');
     cluster.end();
+    process.exit();
 }).catch((err) => {
     log.error(err);
     cluster.end();
+    process.exit();
 });
