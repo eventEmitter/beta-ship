@@ -1,7 +1,6 @@
 #!/bin/bash              
 URL=https://api.infect.info/rda/v2/rda.data
 STATUS=$(curl -s -o /dev/null -w "%{http_code}\n" -m 30 $URL)
-ScriptLoc=$(readlink -f "$0")
 
 
 # dont restart while rda is restarted in the nigth
@@ -28,5 +27,9 @@ else
   sleep 600
 fi
 
-sleep 10
-exec "$ScriptLoc"
+# dont check more than once a minute
+sleep 60
+
+## systemd will restart teh script
+#ScriptLoc=$(readlink -f "$0")
+#exec "$ScriptLoc"

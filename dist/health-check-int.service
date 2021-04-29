@@ -1,0 +1,13 @@
+[Service]
+ExecStart=/home/ubuntu/apps/beta-ship/dist/check-health-int.sh
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=rda-health-check
+User=root
+Group=root
+
+WorkingDirectory=/home/ubuntu/apps/beta-ship
+
+[Install]
+WantedBy=multi-user.target
