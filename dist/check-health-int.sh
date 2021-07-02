@@ -1,6 +1,22 @@
 #!/bin/bash              
-URL=https://api.beta.infect.info/rda/v2/rda.data
+URL=https://api.infect.info/rda/v2/rda.data
 STATUS=$(curl -s -o /dev/null -w "%{http_code}\n" -m 30 $URL)
+
+if [ $STATUS == 200 ] ; then
+    URL=https://api.infect.info/core-data/v1/pathogen.bacterium
+    STATUS=$(curl -s -o /dev/null -w "%{http_code}\n" -m 30 $URL)
+fi
+
+if [ $STATUS == 200 ] ; then
+    URL=https://api.vet.infect.info/rda/v2/rda.data
+    STATUS=$(curl -s -o /dev/null -w "%{http_code}\n" -m 30 $URL)
+fi
+
+if [ $STATUS == 200 ] ; then
+    URL=https://api.vet.infect.info/core-data/v1/pathogen.bacterium
+    STATUS=$(curl -s -o /dev/null -w "%{http_code}\n" -m 30 $URL)
+fi
+
 
 
 # dont restart while rda is restarted in the nigth
@@ -15,7 +31,7 @@ fi
 if [ $STATUS == 200 ] ; then
   echo "$URL is up, returned $STATUS"
 else                     
-  echo "$URL is not up, returned $STATUS"
+  echo "$URL is down, returned $STATUS"
 
   systemctl restart rda
   sleep 60
